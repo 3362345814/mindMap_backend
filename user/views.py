@@ -80,9 +80,18 @@ class UserProfileView(APIView):
     def get(self, request):
         user = request.user  # 从Token中获取的用户信息
         user_data = {
-            'id': user.id,
-            'username': user.username,
-            'email': user.email,
+            'user_info':{
+                'id': user.id,
+                'username': user.username,
+                'email': user.email,
+            },
+            'ai_info':{
+                'api_key': user.api_key,
+                'model_configuration_id': user.model_configuration_id,
+                'custom_base_url': user.custom_base_url,
+                'custom_model': user.custom_model,
+                'model_selection_status': user.model_selection_status,
+            }
         }
         return Response(user_data)
 
@@ -128,19 +137,25 @@ class UpdateUsernameView(APIView):
 class UpdateAPIKeyAndBaseURLView(APIView):
     def post(self, request, *args, **kwargs):
         user = request.user  # 获取当前用户
-        serializer = UpdateAPIKeyAndBaseURLSerializer(data=request.data)
 
-        if serializer.is_valid():
-            # 更新 API Key 和 Model Configuration
-            user.api_key = serializer.validated_data.get('api_key')
-            user.model_configuration_id = serializer.validated_data.get('model_configuration_id')
-            user.custom_model = serializer.validated_data.get('custom_model')
-            user.custom_base_url = serializer.validated_data.get('custom_base_url')
-            user.model_selection_status = serializer.validated_data.get('model_selection_status')
+        try:
+            # 直接从请求数据中获取信息，而不进行序列化验证
+            api_key = request.data.get('api_key', user.api_key)
+            model_configuration_id = request.data.get('model_configuration_id', user.model_configuration_id)
+            custom_model = request.data.get('custom_model', user.custom_model)
+            custom_base_url = request.data.get('custom_base_url', user.custom_base_url)
+            model_selection_status = request.data.get('model_selection_status', user.model_selection_status)
+
+            # 更新用户信息
+            user.api_key = api_key
+            user.model_configuration_id = model_configuration_id
+            user.custom_model = custom_model
+            user.custom_base_url = custom_base_url
+            user.model_selection_status = model_selection_status
 
             # 保存用户信息
             user.save()
 
             return Response({"message": "API Key and Base URL updated successfully"}, status=status.HTTP_200_OK)
-
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        except Exception as e:
+            return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
