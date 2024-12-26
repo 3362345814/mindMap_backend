@@ -3,10 +3,11 @@ FROM python:3.11-slim
 # 设置工作目录
 WORKDIR /app
 
-# 安装系统依赖
+# 安装必要的系统库来支持 mysqlclient 和 pkg-config
 RUN apt-get update && apt-get install -y \
     build-essential \
-    libpq-dev \
+    libmariadb-dev \
+    pkg-config \
     && rm -rf /var/lib/apt/lists/*
 
 # 复制依赖文件到容器

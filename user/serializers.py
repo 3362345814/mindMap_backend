@@ -61,15 +61,3 @@ class UpdateAPIKeyAndBaseURLSerializer(serializers.Serializer):
     model_selection_status = serializers.ChoiceField(
         choices=['custom', 'default', 'none'], required=False, default='none'
     )
-
-    def validate(self, data):
-        model_configuration_id = data.get('model_configuration_id')
-        # 验证 model_configuration_id 是否存在
-        try:
-            model_configuration = ModelConfiguration.objects.get(id=model_configuration_id)
-        except ModelConfiguration.DoesNotExist:
-            raise serializers.ValidationError("Invalid model configuration ID.")
-
-        data['model_configuration'] = model_configuration
-
-        return data
