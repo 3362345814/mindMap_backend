@@ -10,10 +10,13 @@ class MindMapSerializer(serializers.ModelSerializer):
         if attrs['data'] == {}:
             attrs['data'] = {
                 "data":{
-                    "data": {
-                        "text": attrs.get('title', '')  # 使用 title 设置 text 默认值
-                    },
-                    "children": []
+                    "root":{
+                        "data": {
+                            "text": attrs.get('title', '')  # 使用 title 设置 text 默认值
+                        },
+                        "children": []
+                    }
+                    
                 },
                 "picUrl":""
             }

@@ -14,8 +14,8 @@ def save_verification_code(email, code):
 def send_verification_email(email):
     code = generate_verification_code()
     save_verification_code(email, code)
-    subject = "CloseBI邮箱验证"
-    message = f"尊敬的用户您好：您正在进行CloseBI邮箱验证，本次验证码为：{code}，请在5分钟内进行使用。如非本人操作，请忽略此邮件，由此给您带来的不便请谅解！"
+    subject = "方顿邮箱验证"
+    message = f"尊敬的用户您好：您正在进行方顿邮箱验证，本次验证码为：{code}，请在5分钟内进行使用。如非本人操作，请忽略此邮件，由此给您带来的不便请谅解！"
     from_email = settings.EMAIL_HOST_USER
     send_mail(subject, message, from_email, [email])
 

@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 from datetime import timedelta
 from pathlib import Path
 
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -24,6 +25,13 @@ SECRET_KEY = "django-insecure-jdu13r0c&iq)+yv!7492-67o2*fluzy81-e66pon(5w%4$nm(c
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.redis.RedisCache',
+        'LOCATION': 'redis://127.0.0.1:6379/1',  # Redis 地址
+    }
+}
 
 # Application definition
 
@@ -68,7 +76,7 @@ MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
 ]
 
-ALLOWED_HOSTS = ['172.20.10.7', '127.0.0.1', '192.168.63.155', 'localhost']
+ALLOWED_HOSTS = ['172.20.10.7', '127.0.0.1', '192.168.63.155', 'localhost', '120.55.183.84']
 
 CORS_ALLOW_ALL_ORIGINS = True
 
@@ -111,15 +119,11 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',  # 使用 MySQL 数据库
         'NAME': 'mindmap',  # 数据库名称
         'USER': 'root',      # 数据库用户名
-        'PASSWORD': '159753',  # 数据库密码
+        'PASSWORD': '12345678',  # 数据库密码
         'HOST': 'localhost',  # 数据库主机地址
         'PORT': '3306',       # MySQL 默认端口
     }
 }
-
-NEO4J_URI = "bolt://localhost:7687"  # Neo4j 地址
-NEO4J_USER = "neo4j"  # Neo4j 用户名
-NEO4J_PASSWORD = "12345678"  # Neo4j 密码
 
 
 # Password validation
@@ -181,7 +185,7 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.163.com'
-EMAIL_PORT = 465  # 163邮箱的SMTP SSL端口
+EMAIL_PORT = 465
 EMAIL_USE_SSL = True
 EMAIL_HOST_USER = 'CloseBI@163.com'  # 你的163邮箱地址
 EMAIL_HOST_PASSWORD = 'GEyNp39iPip3uJpg'

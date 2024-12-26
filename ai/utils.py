@@ -190,7 +190,7 @@ def generate_child_nodes(parent_content, ancestors_content, api_key=key, base_ur
             messages=[
                 {'role': 'system', 'content': '根据给定的当前节点内容以及祖先节点列表生成当前节点的子节点，'
                                               '返回JSON格式为：{"child_nodes": ["子节点1内容","子节点2内容"]}'
-                                              '请用以上格式返回数据。'},
+                                              '请用以上格式返回数据，如果节点不能继续生成了，请返回1。'},
                 {'role': 'user', 'content': '当前节点：' + parent_content + '当前节点的祖先节点列表：' + str(ancestors_content)}
             ]
         )

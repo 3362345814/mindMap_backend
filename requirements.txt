@@ -1,4 +1,7 @@
-Django==5.1.2
-djangorestframework==3.15.2
-djangorestframework_simplejwt==5.3.1
-openai==1.58.1
+Django~=5.1.2
+djangorestframework~=3.15.2
+openai~=1.52.1
+djangorestframework-simplejwt
+mysqlclient
+django_password_validators
+django-cors-headers
