@@ -34,7 +34,7 @@ def generate_node_explanation_stream(node_data, ancestors_data, api_key=key, bas
         completion = client.chat.completions.create(
             model=model,
             messages=[
-                {'role': 'system', 'content': '请为思维导图的当前节点内容生成解释,使用markdown语法，400字左右，开头有标题，将以下内容作为标题：'},
+                {'role': 'system', 'content': '请为思维导图的当前节点内容生成解释，使用markdown语法，400字左右，开头有标题，如果无法生成请返回1，将以下内容作为标题：'},
                 {'role': 'user', 'content': '当前节点：' + node_data + '当前节点的祖先节点列表：' + str(ancestors_data)}
             ],
             stream=True  # 启用流式返回
@@ -59,7 +59,7 @@ def generate_choice_questions(text, api_key=key, base_url=url, model=model):
         completion = client.chat.completions.create(
             model=model,
             messages=[
-                {'role': 'system', 'content': '根据以下知识点内容生成5个选择题，每个选择题包括1个问题，4个选项和正确答案, '
+                {'role': 'system', 'content': '根据以下知识点内容生成5个选择题，每个选择题包括1个问题，4个选项和正确答案，'
                                               '答案为正确答案的索引，格式为{"questions_and_answers": ['
                                               '{"question": "什么是牛顿第二定律？", '
                                               '"options": ["F = mv", "F = ma", "F = m/v", "F = m^2"], '
@@ -67,7 +67,7 @@ def generate_choice_questions(text, api_key=key, base_url=url, model=model):
                                               '{"question": "牛顿第三定律的内容是什么？", '
                                               '"options": ["每个作用力都有一个反作用力", "物体沿直线加速", "质量守恒定律", "引力作用"], '
                                               '"answer": 0}]} '
-                                              '请用以上格式返回题目内容。'
+                                              '请用以上格式返回题目内容，如果无法生成请返回1。'
                  },
                 {'role': 'user', 'content': text}
             ]
@@ -103,7 +103,7 @@ def generate_subjective_questions(text, api_key=key, base_url=url, model=model):
                                               '"answer": "牛顿第二定律是描述物体运动的一个定律，表达式为 F = ma，其中 F 为作用力，m 为物体的质量，a 为物体的加速度。"},'
                                               '{"question": "牛顿第三定律的内容是什么？", '
                                               '"answer": "牛顿第三定律描述的是每个作用力都有一个反作用力，且方向相反，大小相等。"}]} '
-                                              '请使用以上格式返回主观题内容。'
+                                              '请使用以上格式返回主观题内容，如果无法生成请返回1。'
                  },
                 {'role': 'user', 'content': text}
             ]
@@ -141,7 +141,7 @@ def generate_true_or_false_questions(text, api_key=key, base_url=url, model=mode
                                               '{"question": "牛顿第三定律描述的是物体的加速。", '
                                               '"options": ["正确", "错误"], '
                                               '"answer": 1}]}'
-                                              '请使用以上格式返回判断题内容。'
+                                              '请使用以上格式返回判断题内容，如果无法生成请返回1。'
                  },
                 {'role': 'user', 'content': text}
             ]
