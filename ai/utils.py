@@ -34,7 +34,7 @@ def generate_node_explanation_stream(node_data, ancestors_data, api_key=key, bas
         completion = client.chat.completions.create(
             model=model,
             messages=[
-                {'role': 'system', 'content': '请为思维导图的当前节点内容生成解释，使用markdown语法，400字左右，开头有标题，如果无法生成请返回1，将以下内容作为标题：'},
+                {'role': 'system', 'content': '请为思维导图的当前节点内容生成解释，使用markdown语法，400字左右，开头有标题，将以下内容作为标题：'},
                 {'role': 'user', 'content': '当前节点：' + node_data + '当前节点的祖先节点列表：' + str(ancestors_data)}
             ],
             stream=True  # 启用流式返回
