@@ -1,10 +1,9 @@
 from django.urls import path
-from .views import NodeExplanationView, NodeExplanationStreamView, GenerateChoiceQuestionsView, \
+from .views import NodeExplanationStreamView, GenerateChoiceQuestionsView, \
     GenerateSubjectiveQuestionsView, GenerateTrueOrFalseQuestionsView, GenerateChildNodesView, \
     ModelConfigurationListView
 
 urlpatterns = [
-    path('explanation/', NodeExplanationView.as_view(), name='explanation'),
     path('stream-explanation/', NodeExplanationStreamView.as_view(), name='stream-explanation'),
     path('generate-choice-questions/', GenerateChoiceQuestionsView.as_view(), name='generate-choice-questions'),
     path('generate-subjective-questions/', GenerateSubjectiveQuestionsView.as_view(), name='generate-subjective-questions'),

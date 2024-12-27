@@ -3,7 +3,7 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from .models import MindMap
-from .serializers import MindMapSerializer  # 需要为 MindMap 创建一个序列化器
+from .serializers import MindMapSerializer
 
 class CreateMindMapView(APIView):
     def post(self, request, *args, **kwargs):

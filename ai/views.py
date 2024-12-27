@@ -5,37 +5,8 @@ from rest_framework import status
 
 from .models import ModelConfiguration
 from .serializers import ModelConfigurationSerializer
-from .utils import generate_node_explanation, generate_node_explanation_stream, generate_choice_questions, \
+from .utils import generate_node_explanation_stream, generate_choice_questions, \
     generate_subjective_questions, generate_true_or_false_questions, generate_child_nodes, test_openai_connection
-
-
-class NodeExplanationView(APIView):
-    def post(self, request, *args, **kwargs):
-        node_data = request.data.get("node_data")
-        if not node_data:
-            return Response({"error": "Node data is required"}, status=status.HTTP_400_BAD_REQUEST)
-
-        user = request.user
-        api_key = user.api_key
-        model_configuration_id = user.model_configuration_id
-        custom_base_url = user.custom_base_url
-        custom_model = user.custom_model
-        model_selection_status = user.model_selection_status
-
-        # 生成节点解释
-        if model_selection_status == 'default':
-            explanation = generate_node_explanation(node_data)
-        elif model_selection_status == 'select':
-            model_configuration = ModelConfiguration.objects.get(pk=model_configuration_id)
-            explanation = generate_node_explanation(node_data, api_key=api_key, base_url=model_configuration.base_url,
-                                                    model=model_configuration.model)
-        elif model_selection_status == 'custom':
-            explanation = generate_node_explanation(node_data, api_key=api_key, base_url=custom_base_url,
-                                                    model=custom_model)
-        if "error" in explanation:
-            status_code = explanation.get("status_code", status.HTTP_500_INTERNAL_SERVER_ERROR)
-            return Response({"error": explanation["error"]}, status=status_code)
-        return Response(explanation, status=status.HTTP_200_OK)
 
 
 class NodeExplanationStreamView(APIView):
@@ -65,7 +36,7 @@ class NodeExplanationStreamView(APIView):
             try:
                 test_openai_connection(api_key, model_configuration.base_url, model_configuration.model)
             except Exception as e:
-                return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+                return Response({"error": "AI配置出错，请检查是否输入正确"}, status=status.HTTP_400_BAD_REQUEST)
 
             def generate():
                 for part in generate_node_explanation_stream(node_data, ancestors_data, api_key,
@@ -75,7 +46,7 @@ class NodeExplanationStreamView(APIView):
             try:
                 test_openai_connection(api_key, custom_base_url, custom_model)
             except Exception as e:
-                return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+                return Response({"error": "AI配置出错，请检查是否输入正确"}, status=status.HTTP_400_BAD_REQUEST)
 
             def generate():
                 for part in generate_node_explanation_stream(node_data, ancestors_data, api_key,

@@ -24,22 +24,6 @@ def test_openai_connection(api_key, base_url, model):
     except Exception as e:
         raise ValueError(f"{str(e)}")
 
-def generate_node_explanation(node_data, api_key=key, base_url=url, model=model):
-    try:
-        client = OpenAI(
-            api_key=api_key,
-            base_url=base_url,
-        )
-        completion = client.chat.completions.create(
-            model=model,
-            messages=[
-                {'role': 'system', 'content': '请为以下内容生成解释,使用markdown语法：'},
-                {'role': 'user', 'content': node_data}],
-        )
-        return completion.choices[0].message.content
-    except Exception as e:
-        return {"error": f"{str(e)}", "status_code": 500}
-
 
 def generate_node_explanation_stream(node_data, ancestors_data, api_key=key, base_url=url, model=model):
     try:
@@ -60,8 +44,7 @@ def generate_node_explanation_stream(node_data, ancestors_data, api_key=key, bas
         for chunk in completion:
             yield chunk.choices[0].delta.content  # 按块返回内容
     except Exception as e:
-        print(e)
-        return {"error": f"{str(e)}", "status_code": 500}
+        return {"error": "AI配置出错，请检查是否输入正确"}
 
 
 
@@ -98,9 +81,9 @@ def generate_choice_questions(text, api_key=key, base_url=url, model=model):
             questions_and_answers = json.loads(generated_text)
             return questions_and_answers
         except json.JSONDecodeError as e:
-            return {"error": "无法解析返回的JSON", "details": str(e)}
+            return {"error": "生成出错了，请重试"}
     except Exception as e:
-        return {"error": f"{str(e)}", "status_code": 500}
+        return {"error": "AI配置出错，请检查是否输入正确"}
 
 def generate_subjective_questions(text, api_key=key, base_url=url, model=model):
     try:
@@ -134,9 +117,9 @@ def generate_subjective_questions(text, api_key=key, base_url=url, model=model):
             questions_and_answers = json.loads(generated_text)
             return questions_and_answers
         except json.JSONDecodeError as e:
-            return {"error": "无法解析返回的JSON", "details": str(e)}
+            return {"error": "生成出错了，请重试"}
     except Exception as e:
-        return {"error": f"{str(e)}", "status_code": 500}
+        return {"error": "AI配置出错，请检查是否输入正确"}
 
 def generate_true_or_false_questions(text, api_key=key, base_url=url, model=model):
     try:
@@ -172,9 +155,9 @@ def generate_true_or_false_questions(text, api_key=key, base_url=url, model=mode
             questions_and_answers = json.loads(generated_text)
             return questions_and_answers
         except json.JSONDecodeError as e:
-            return {"error": "无法解析返回的JSON", "details": str(e)}
+            return {"error": "生成出错了，请重试"}
     except Exception as e:
-        return {"error": f"{str(e)}", "status_code": 500}
+        return {"error": "AI配置出错，请检查是否输入正确"}
 
 
 def generate_child_nodes(parent_content, ancestors_content, api_key=key, base_url=url, model=model):
@@ -206,4 +189,4 @@ def generate_child_nodes(parent_content, ancestors_content, api_key=key, base_ur
             print(generated_text)
             return {"error": "这个节点内容不能再生成了，请尝试其他节点或修改节点内容。", "details": str(e)}
     except Exception as e:
-        return {"error": f"{str(e)}", "status_code": 500}
+        return {"error": "AI配置出错，请检查是否输入正确"}
