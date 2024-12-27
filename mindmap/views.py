@@ -1,3 +1,4 @@
+from django.shortcuts import get_object_or_404
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -27,6 +28,19 @@ class SelectMindMapView(APIView):
             mind_maps = MindMap.objects.filter(user=request.user, is_del=False)
         # 序列化查询结果并返回
         serializer = MindMapSerializer(mind_maps, many=True)
+        return Response(serializer.data)
+
+
+class SelectMindMapByIdView(APIView):
+    def get(self, request, *args, **kwargs):
+        mindmap_id = kwargs.get('id')
+        if not mindmap_id:
+            return Response({"error": "no id"}, status=status.HTTP_400_BAD_REQUEST)
+        mindmap = get_object_or_404(MindMap, id=mindmap_id, is_del=False)
+        if mindmap.user != request.user:
+            return Response({"error": "权限不足"}, status=status.HTTP_403_FORBIDDEN)
+
+        serializer = MindMapSerializer(mindmap)
         return Response(serializer.data)
 
 
