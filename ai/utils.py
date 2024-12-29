@@ -67,14 +67,14 @@ def generate_choice_questions(text, api_key=key, base_url=url, model=model):
                                               '{"question": "牛顿第三定律的内容是什么？", '
                                               '"options": ["每个作用力都有一个反作用力", "物体沿直线加速", "质量守恒定律", "引力作用"], '
                                               '"answer": 0}]} '
-                                              '请用以上格式返回题目内容，如果无法生成请返回1。'
+                                              '请用以上格式返回题目内容，如果无法生成请不要遵循以上格式，直接说生成失败。'
                  },
                 {'role': 'user', 'content': text}
             ]
         )
 
         # 获取返回的文本内容
-        generated_text = completion.choices[0].message.content
+        generated_text = completion.choices[0].message.content.replace('\\', '\\\\')
 
         try:
             # 解析生成的文本为JSON对象
@@ -103,14 +103,14 @@ def generate_subjective_questions(text, api_key=key, base_url=url, model=model):
                                               '"answer": "牛顿第二定律是描述物体运动的一个定律，表达式为 F = ma，其中 F 为作用力，m 为物体的质量，a 为物体的加速度。"},'
                                               '{"question": "牛顿第三定律的内容是什么？", '
                                               '"answer": "牛顿第三定律描述的是每个作用力都有一个反作用力，且方向相反，大小相等。"}]} '
-                                              '请使用以上格式返回主观题内容，如果无法生成请返回1。'
+                                              '请使用以上格式返回主观题内容，如果无法生成请不要遵循以上格式，直接说生成失败。'
                  },
                 {'role': 'user', 'content': text}
             ]
         )
 
         # 获取返回的文本内容
-        generated_text = completion.choices[0].message.content
+        generated_text = completion.choices[0].message.content.replace('\\', '\\\\')
 
         try:
             # 解析生成的文本为JSON对象
@@ -141,14 +141,14 @@ def generate_true_or_false_questions(text, api_key=key, base_url=url, model=mode
                                               '{"question": "牛顿第三定律描述的是物体的加速。", '
                                               '"options": ["正确", "错误"], '
                                               '"answer": 1}]}'
-                                              '请使用以上格式返回判断题内容，如果无法生成请返回1。'
+                                              '请使用以上格式返回判断题内容，如果无法生成请不要遵循以上格式，直接说生成失败。'
                  },
                 {'role': 'user', 'content': text}
             ]
         )
 
         # 获取返回的文本内容
-        generated_text = completion.choices[0].message.content
+        generated_text = completion.choices[0].message.content.replace('\\', '\\\\')
 
         try:
             # 解析生成的文本为JSON对象
@@ -179,7 +179,7 @@ def generate_child_nodes(parent_content, ancestors_content, api_key=key, base_ur
         )
 
         # 获取返回的文本内容
-        generated_text = completion.choices[0].message.content
+        generated_text = completion.choices[0].message.content.replace('\\', '\\\\')
 
         try:
             # 解析生成的文本为JSON对象
