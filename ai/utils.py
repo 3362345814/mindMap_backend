@@ -74,7 +74,7 @@ def generate_choice_questions(text, api_key=key, base_url=url, model=model):
         )
 
         # 获取返回的文本内容
-        generated_text = completion.choices[0].message.content.replace('\\', '\\\\')
+        generated_text = completion.choices[0].message.content.replace('\\', '')
 
         try:
             # 解析生成的文本为JSON对象
@@ -110,7 +110,7 @@ def generate_subjective_questions(text, api_key=key, base_url=url, model=model):
         )
 
         # 获取返回的文本内容
-        generated_text = completion.choices[0].message.content.replace('\\', '\\\\')
+        generated_text = completion.choices[0].message.content.replace('\\', '')
 
         try:
             # 解析生成的文本为JSON对象
@@ -148,7 +148,7 @@ def generate_true_or_false_questions(text, api_key=key, base_url=url, model=mode
         )
 
         # 获取返回的文本内容
-        generated_text = completion.choices[0].message.content.replace('\\', '\\\\')
+        generated_text = completion.choices[0].message.content.replace('\\', '')
 
         try:
             # 解析生成的文本为JSON对象
@@ -179,7 +179,7 @@ def generate_child_nodes(parent_content, ancestors_content, api_key=key, base_ur
         )
 
         # 获取返回的文本内容
-        generated_text = completion.choices[0].message.content.replace('\\', '\\\\')
+        generated_text = completion.choices[0].message.content.replace('\\', '')
 
         try:
             # 解析生成的文本为JSON对象

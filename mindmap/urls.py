@@ -3,7 +3,7 @@ from .views import CreateMindMapView, SelectMindMapView, UpdateMindMapView, Dele
 
 urlpatterns = [
     path('select/', SelectMindMapView.as_view(), name='list_mindmaps'),  # 获取所有思维导图
-    path('select/<int:id>/', SelectMindMapByIdView.as_view(), name='select_mindmap'), # 通过id获取思维导图
+    path('select/<int:id>/', SelectMindMapByIdView.as_view(), name='select_mindmap'),  # 通过id获取思维导图
     path('create/', CreateMindMapView.as_view(), name='create_mindmap'),  # 创建思维导图
     path('update/<int:id>/', UpdateMindMapView.as_view(), name='update_mindmap'),  # 更新思维导图
     path('delete/<int:id>/', DeleteMindMapView.as_view(), name='delete_mindmap'),  # 删除思维导图
