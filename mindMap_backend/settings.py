@@ -21,7 +21,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-jdu13r0c&iq)+yv!7492-67o2*fluzy81-e66pon(5w%4$nm(c"
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -188,4 +188,3 @@ EMAIL_HOST = 'smtp.163.com'
 EMAIL_PORT = 465
 EMAIL_USE_SSL = True
 EMAIL_HOST_USER = 'CloseBI@163.com'  # 你的163邮箱地址
-EMAIL_HOST_PASSWORD = 'GEyNp39iPip3uJpg'
